@@ -15,14 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('jury_member_id')
             ->constrained('jury_members')
-            ->index()
             ->onDelete('cascade');
             $table->foreignId('nominee_id')
             ->constrained('nominees')
             ->onDelete('cascade');
             $table->foreignId('category_id')
             ->constrained('categories')
-            ->index()
             ->onDelete('cascade');
             $table->integer('score');
             $table->timestamps();

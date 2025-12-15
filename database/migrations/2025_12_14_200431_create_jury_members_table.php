@@ -15,12 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')
             ->constrained('users')
-            ->onDelete('cascade')
-            ->index();
+            ->onDelete('cascade');
             $table->foreignId('award_id')
             ->constrained('awards')
-            ->onDelete('cascade')
-            ->index();
+            ->onDelete('cascade');
             $table->timestamps();
         });
     }

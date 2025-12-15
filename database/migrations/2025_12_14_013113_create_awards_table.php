@@ -15,10 +15,10 @@ return new class extends Migration
         Schema::create('awards', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->int('year')->index();
+            $table->integer('year')->index();
             $table->date('voting_start_date');
             $table->date('voting_end_date');
-            $table->enum('status', AwardStatus::all())->default(AwardStatus::DRAFT)->index();
+            $table->enum('status', AwardStatus::all())->default(AwardStatus::DRAFT->value)->index();
             $table->timestamps();
             $table->softDeletes();
 

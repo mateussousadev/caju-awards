@@ -15,11 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')
             ->constrained('categories')
-            ->index()
             ->onDelete('cascade');
             $table->foreignId('user_id')
             ->constrained('users')
-            ->index()
             ->onDelete('cascade');
             $table->string('quantitative_description');
             $table->decimal('quantitative_value', 10, 2);
