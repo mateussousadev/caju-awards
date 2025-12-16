@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class CategoryResource extends Resource
 {
@@ -27,6 +28,10 @@ class CategoryResource extends Resource
     protected static ?string $pluralModelLabel = 'Categorias';
 
     protected static ?string $modelLabel = 'Categoria';
+
+    protected static UnitEnum|string|null $navigationGroup = 'Premiações';
+
+    protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
     {
