@@ -27,6 +27,15 @@ class AwardForm
                         ->rows(3)
                         ->columnSpanFull(),
 
+                    TextInput::make('year')
+                        ->label('Ano')
+                        ->required()
+                        ->numeric()
+                        ->minValue(2000)
+                        ->maxValue(2100)
+                        ->default(now()->year)
+                        ->helperText('Ano da premiação'),
+
                     DateTimePicker::make('voting_start_at')
                         ->label('Início da Votação')
                         ->native(false)

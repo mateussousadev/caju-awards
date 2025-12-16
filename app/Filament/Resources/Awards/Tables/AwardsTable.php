@@ -21,6 +21,11 @@ class AwardsTable
                     ->searchable()
                     ->sortable(),
 
+                TextColumn::make('year')
+                    ->label('Ano')
+                    ->sortable()
+                    ->searchable(),
+
                 TextColumn::make('voting_start_at')
                     ->label('Início da Votação')
                     ->dateTime('d/m/Y H:i')
