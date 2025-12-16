@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\Awards\Schemas;
 
-use App\AwardStatus;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -22,32 +22,29 @@ class AwardForm
                         ->maxLength(255)
                         ->columnSpanFull(),
 
-                    TextInput::make('year')
-                        ->label('Ano')
-                        ->required()
-                        ->numeric()
-                        ->minValue(1900)
-                        ->maxValue(2100)
-                        ->default(date('Y')),
+                    Textarea::make('description')
+                        ->label('Descrição')
+                        ->rows(3)
+                        ->columnSpanFull(),
 
-                    Select::make('status')
-                        ->label('Status')
-                        ->options(AwardStatus::class)
-                        ->required()
-                        ->default(AwardStatus::DRAFT),
-
-                    DatePicker::make('voting_start_date')
-                        ->label('Data de Início da Votação')
-                        ->required()
+                    DateTimePicker::make('voting_start_at')
+                        ->label('Início da Votação')
                         ->native(false)
-                        ->displayFormat('d/m/Y'),
+                        ->displayFormat('d/m/Y H:i')
+                        ->seconds(false),
 
-                    DatePicker::make('voting_end_date')
-                        ->label('Data de Fim da Votação')
-                        ->required()
+                    DateTimePicker::make('voting_end_at')
+                        ->label('Fim da Votação')
                         ->native(false)
-                        ->displayFormat('d/m/Y')
-                        ->after('voting_start_date'),
+                        ->displayFormat('d/m/Y H:i')
+                        ->seconds(false)
+                        ->after('voting_start_at')
+                        ->rule('after:voting_start_at'),
+
+                    Toggle::make('is_active')
+                        ->label('Ativo')
+                        ->default(true)
+                        ->inline(false),
                 ])
                 ->columns(2),
         ]);
