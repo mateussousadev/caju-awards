@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\AwardStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Award extends Model
 {
+    use SoftDeletes;            
     protected $table = 'awards';
 
     protected $fillable = [
