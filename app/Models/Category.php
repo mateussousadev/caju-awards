@@ -10,9 +10,11 @@ class Category extends Model
     protected $table = 'categories';
 
     protected $fillable = [
+        'award_id',
         'name',
         'description',
         'type',
+        'winner_id',
         'public_vote_weight',
         'quantitative_weight',
         'jury_weight',
@@ -35,6 +37,11 @@ class Category extends Model
     public function nominees()
     {
         return $this->hasMany(Nominee::class);
+    }
+
+    public function winner()
+    {
+        return $this->belongsTo(Nominee::class, 'winner_id');
     }
 
     public function votes()
