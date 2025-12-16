@@ -5,6 +5,7 @@ namespace App;
 enum CategoryType: string
 {
     case PUBLIC_VOTE = 'public_vote';
+    case ADMIN_CHOICE = 'admin_choice';
     case QUANTITATIVE = 'quantitative';
     case JURY = 'jury';
     case MIXED = 'mixed';
