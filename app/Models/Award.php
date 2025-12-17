@@ -9,24 +9,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Award extends Model
 {
     use SoftDeletes;            
-    protected $table = 'awards';
+    protected $table = "awards";
 
     protected $fillable = [
-        'name',
-        'description',
-        'year',
-        'voting_start_at',
-        'voting_end_at',
-        'status',
-        'is_active',
+        "name",
+        "description",
+        "cover_image",
+        "year",
+        "voting_start_at",
+        "voting_end_at",
+        "status",
+        "is_active",
     ];
 
     protected $casts = [
-        'year' => 'integer',
-        'voting_start_at' => 'datetime',
-        'voting_end_at' => 'datetime',
-        'status' => AwardStatus::class,
-        'is_active' => 'boolean',
+        "year" => "integer",
+        "voting_start_at" => "datetime",
+        "voting_end_at" => "datetime",
+        "status" => AwardStatus::class,
+        "is_active" => "boolean",
     ];
 
     public function categories()
