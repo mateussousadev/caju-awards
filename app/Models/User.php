@@ -47,4 +47,12 @@ class User extends Authenticatable
             'is_admin' => 'boolean',
         ];
     }
+
+    /**
+     * Get the votes for the user.
+     */
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
 }
