@@ -38,6 +38,7 @@ class CategoryForm
 
                     Textarea::make('description')
                         ->label('Descrição')
+                        ->required()
                         ->rows(3)
                         ->columnSpanFull(),
 

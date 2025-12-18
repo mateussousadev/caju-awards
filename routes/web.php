@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PresentationController;
 use App\Http\Controllers\VoteController;
 use App\Models\Award;
 use App\Models\Vote;
@@ -41,3 +42,9 @@ Route::post('/voting/{award_id}/vote', [VoteController::class, 'store'])
 Route::delete('/voting/{award_id}/vote', [VoteController::class, 'destroy'])
     ->middleware(['auth', 'throttle:10,1'])
     ->name('vote.destroy');
+
+// Presentation Routes (Admin Only)
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::get('/presentation/{award}', [PresentationController::class, 'show'])
+        ->name('presentation.show');
+});
