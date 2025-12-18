@@ -70,9 +70,18 @@
     </style>
 </head>
 
-<body class="bg-[#0a0a0a] text-[#EDEDEC] overflow-hidden">
+<body class="bg-[#0a0a0a] text-[#EDEDEC] overflow-hidden relative">
+
+    <!-- Background Image with Gradient Overlay -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-15"
+             style="background-image: url('{{ asset('img/bg-caju.png') }}');">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/50 via-[#0a0a0a]/70 to-[#0a0a0a]"></div>
+    </div>
+
     <div id="presentation-container"
-        class="fullscreen-container w-screen h-screen flex items-center justify-center relative" x-data="presentationSlider()"
+        class="fullscreen-container w-screen h-screen flex items-center justify-center relative z-10" x-data="presentationSlider()"
         @keydown.arrow-right.window="next()" @keydown.arrow-left.window="previous()"
         @keydown.escape.window="exitFullscreen()" @keydown.f.window="toggleFullscreen()">
         <!-- Slide Container -->
@@ -131,13 +140,10 @@
                             x-text="slides[currentSlide].data.category_description"></p>
                     </template>
 
-                    <div class="grid gap-6"
-                        :class="slides[currentSlide].data.nominees.length <= 12 ?
-                            'grid-cols-6' :
-                            'grid-cols-[repeat(auto-fill,minmax(150px,1fr))]'">
+                    <div class="flex flex-wrap gap-6 justify-center">
                         <template x-for="nominee in slides[currentSlide].data.nominees" :key="nominee.id">
                             <div
-                                class="bg-[#161615] border-2 border-[#3E3E3A] rounded-sm overflow-hidden hover:border-[#EDEDEC] transition-all max-w-[150px]">
+                                class="bg-[#161615] border-2 border-[#3E3E3A] rounded-sm overflow-hidden hover:border-[#EDEDEC] transition-all w-[150px]">
 
                                 <template x-if="nominee.photo">
                                     <img :src="nominee.photo" :alt="nominee.name"
