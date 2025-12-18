@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PresentationController;
 use App\Http\Controllers\VoteController;
 use App\Http\Controllers\AuthController;
 use App\Models\Award;
@@ -15,7 +16,7 @@ Route::get('/dashboard', function () {
 Route::middleware('guest')->group(function () {
     Route::get('/', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
-    
+
     Route::get('/register', function () {
         return view('auth.register');
     })->name('register');
@@ -24,11 +25,11 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    
+
     Route::post('/voting/{award_id}/vote', [VoteController::class, 'store'])
         ->middleware('throttle:10,1')
         ->name('vote.store');
-    
+
     Route::delete('/voting/{award_id}/vote', [VoteController::class, 'destroy'])
         ->middleware('throttle:10,1')
         ->name('vote.destroy');
@@ -39,7 +40,7 @@ Route::get('/voting/{award_id}', function ($award_id) {
         ->where('is_active', true)
         ->with(['categories.nominees'])
         ->firstOrFail();
-    
+
     $userVotes = [];
     if (Auth::check()) {
         $userVotes = Vote::where('user_id', Auth::id())
@@ -47,6 +48,20 @@ Route::get('/voting/{award_id}', function ($award_id) {
             ->get()
             ->keyBy('category_id');
     }
-    
+
     return view('votingSession', compact('award', 'userVotes'));
 })->name('votingSession');
+
+Route::post('/voting/{award_id}/vote', [VoteController::class, 'store'])
+    ->middleware(['auth', 'throttle:10,1'])
+    ->name('vote.store');
+
+Route::delete('/voting/{award_id}/vote', [VoteController::class, 'destroy'])
+    ->middleware(['auth', 'throttle:10,1'])
+    ->name('vote.destroy');
+
+// Presentation Routes (Admin Only)
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::get('/presentation/{award}', [PresentationController::class, 'show'])
+        ->name('presentation.show');
+});

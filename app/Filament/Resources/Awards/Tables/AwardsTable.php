@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Awards\Tables;
 
+use App\CategoryType;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -44,6 +46,17 @@ class AwardsTable
                     ->sortable(),
             ])
             ->recordActions([
+                Action::make('presentation')
+                    ->label('Iniciar Apresentação')
+                    ->icon('heroicon-o-presentation-chart-line')
+                    ->color('success')
+                    ->url(fn ($record) => route('presentation.show', $record))
+                    ->openUrlInNewTab()
+                    ->visible(fn ($record) =>
+                        $record->categories()
+                            ->whereIn('type', [CategoryType::PUBLIC_VOTE, CategoryType::ADMIN_CHOICE])
+                            ->exists()
+                    ),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
