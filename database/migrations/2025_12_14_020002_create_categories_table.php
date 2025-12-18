@@ -18,7 +18,7 @@ return new class extends Migration
             ->constrained('awards')
             ->onDelete('cascade');
             $table->string('name');
-            $table->string('description');
+            $table->text('description');
             $table->enum('type', CategoryType::all())->default(CategoryType::PUBLIC_VOTE);
             $table->integer('public_vote_weight')->default(0);
             $table->integer('quantitative_weight')->default(0);
