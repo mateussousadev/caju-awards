@@ -11,6 +11,8 @@ echo "🚀 Iniciando deploy..."
 echo "📥 Atualizando código..."
 
 eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519_caju_awards
+
 git pull origin main
 
 # 2. Instalar dependências do Composer
