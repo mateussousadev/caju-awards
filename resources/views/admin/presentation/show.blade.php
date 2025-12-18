@@ -131,13 +131,10 @@
                             x-text="slides[currentSlide].data.category_description"></p>
                     </template>
 
-                    <div class="grid gap-6"
-                        :class="slides[currentSlide].data.nominees.length <= 12 ?
-                            'grid-cols-6' :
-                            'grid-cols-[repeat(auto-fill,minmax(150px,1fr))]'">
+                    <div class="flex flex-wrap gap-6 justify-center">
                         <template x-for="nominee in slides[currentSlide].data.nominees" :key="nominee.id">
                             <div
-                                class="bg-[#161615] border-2 border-[#3E3E3A] rounded-sm overflow-hidden hover:border-[#EDEDEC] transition-all max-w-[150px]">
+                                class="bg-[#161615] border-2 border-[#3E3E3A] rounded-sm overflow-hidden hover:border-[#EDEDEC] transition-all w-[150px]">
 
                                 <template x-if="nominee.photo">
                                     <img :src="nominee.photo" :alt="nominee.name"

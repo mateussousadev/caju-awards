@@ -64,14 +64,17 @@ class PresentationController extends Controller
             ]
         ];
 
-        // Slide 1: Category List
+        // Slide 1: Category List (only public vote categories)
         $slides[] = [
             'type' => 'category_list',
             'data' => [
-                'categories' => $award->categories->map(fn($cat) => [
-                    'name' => $cat->name,
-                    'type' => $cat->type->value
-                ])->toArray()
+                'categories' => $award->categories
+                    ->where('type', CategoryType::PUBLIC_VOTE)
+                    ->map(fn($cat) => [
+                        'name' => $cat->name,
+                        'type' => $cat->type->value
+                    ])->values()
+                    ->toArray()
             ]
         ];
 
