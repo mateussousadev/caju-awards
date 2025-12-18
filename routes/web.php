@@ -1,20 +1,37 @@
 <?php
 
 use App\Http\Controllers\VoteController;
+use App\Http\Controllers\AuthController;
 use App\Models\Award;
 use App\Models\Vote;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-Route::get('/', function () {
-
-    $dados = Award::where('is_active', true)
-        ->get();
+Route::get('/dashboard', function () {
+    $dados = Award::where('is_active', true)->get();
     return view('home', compact('dados'));
+})->name('home');
+
+Route::middleware('guest')->group(function () {
+    Route::get('/', [AuthController::class, 'index'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+    
+    Route::get('/register', function () {
+        return view('auth.register');
+    })->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    
+    Route::post('/voting/{award_id}/vote', [VoteController::class, 'store'])
+        ->middleware('throttle:10,1')
+        ->name('vote.store');
+    
+    Route::delete('/voting/{award_id}/vote', [VoteController::class, 'destroy'])
+        ->middleware('throttle:10,1')
+        ->name('vote.destroy');
 });
 
 Route::get('/voting/{award_id}', function ($award_id) {
@@ -22,7 +39,7 @@ Route::get('/voting/{award_id}', function ($award_id) {
         ->where('is_active', true)
         ->with(['categories.nominees'])
         ->firstOrFail();
-
+    
     $userVotes = [];
     if (Auth::check()) {
         $userVotes = Vote::where('user_id', Auth::id())
@@ -30,14 +47,6 @@ Route::get('/voting/{award_id}', function ($award_id) {
             ->get()
             ->keyBy('category_id');
     }
-
+    
     return view('votingSession', compact('award', 'userVotes'));
 })->name('votingSession');
-
-Route::post('/voting/{award_id}/vote', [VoteController::class, 'store'])
-    ->middleware(['auth', 'throttle:10,1'])
-    ->name('vote.store');
-
-Route::delete('/voting/{award_id}/vote', [VoteController::class, 'destroy'])
-    ->middleware(['auth', 'throttle:10,1'])
-    ->name('vote.destroy');
