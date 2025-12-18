@@ -1,5 +1,6 @@
 <?php
 
+use App\CategoryType;
 use App\Http\Controllers\Admin\PresentationController;
 use App\Http\Controllers\VoteController;
 use App\Http\Controllers\AuthController;
@@ -22,9 +23,9 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
-    $dados = Award::where('is_active', true)->get();
-    return view('home', compact('dados'));
-})->name('home');
+        $dados = Award::where('is_active', true)->get();
+        return view('home', compact('dados'));
+    })->name('home');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::post('/voting/{award_id}/vote', [VoteController::class, 'store'])
@@ -39,7 +40,12 @@ Route::middleware('auth')->group(function () {
 Route::get('/voting/{award_id}', function ($award_id) {
     $award = Award::where('id', $award_id)
         ->where('is_active', true)
-        ->with(['categories.nominees'])
+        ->with([
+            'categories' => function ($query) {
+                $query->where('type', CategoryType::PUBLIC_VOTE);
+            },
+            'categories.nominees'
+        ])
         ->firstOrFail();
 
     $userVotes = [];
