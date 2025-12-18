@@ -66,7 +66,7 @@ Route::delete('/voting/{award_id}/vote', [VoteController::class, 'destroy'])
     ->name('vote.destroy');
 
 // Presentation Routes (Admin Only)
-Route::middleware(['auth'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/presentation/{award}', [PresentationController::class, 'show'])
         ->name('presentation.show');
 });
