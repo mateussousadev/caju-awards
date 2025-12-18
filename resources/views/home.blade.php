@@ -43,6 +43,13 @@
                                 <span class="text-sm text-[#706f6c] dark:text-[#A1A09A]">
                                     Olá, {{ Auth::user()->name }}
                                 </span>
+                                <form action="{{ route('logout') }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit"
+                                        class="inline-block px-4 py-2 dark:text-[#EDEDEC] text-[#1b1b18] border border-[#19140035] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-lg text-sm transition-all hover:bg-[#F53003] hover:text-white dark:hover:bg-[#FF4433]">
+                                        Sair
+                                    </button>
+                                </form>
                             @else
                                 <a href="{{ route('login') }}"
                                     class="inline-block px-4 py-2 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-lg text-sm transition-all">
