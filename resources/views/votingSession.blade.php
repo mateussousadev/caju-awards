@@ -129,7 +129,7 @@
                                             @else
                                                 <button disabled
                                                     class="w-full px-5 py-2 bg-[#dbdbd7] dark:bg-[#3E3E3A] text-[#706f6c] dark:text-[#A1A09A] rounded-full font-medium">
-                                                    Votação Encerrada
+                                                   Apenas um voto por categoria
                                                 </button>
                                             @endif
                                         @else
