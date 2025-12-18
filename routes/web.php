@@ -21,11 +21,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
+Route::get('/', function () {
+    $dados = Award::where('is_active', true)->get();
+    return view('home', compact('dados'));
+})->name('home');
+
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        $dados = Award::where('is_active', true)->get();
-        return view('home', compact('dados'));
-    })->name('home');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::post('/voting/{award_id}/vote', [VoteController::class, 'store'])
@@ -48,16 +49,13 @@ Route::get('/voting/{award_id}', function ($award_id) {
         ])
         ->firstOrFail();
 
-    $userVotes = [];
-    if (Auth::check()) {
-        $userVotes = Vote::where('user_id', Auth::id())
-            ->whereIn('category_id', $award->categories->pluck('id'))
-            ->get()
-            ->keyBy('category_id');
-    }
+    $userVotes = Vote::where('user_id', Auth::id())
+        ->whereIn('category_id', $award->categories->pluck('id'))
+        ->get()
+        ->keyBy('category_id');
 
     return view('votingSession', compact('award', 'userVotes'));
-})->name('votingSession');
+})->middleware('auth')->name('votingSession');
 
 Route::post('/voting/{award_id}/vote', [VoteController::class, 'store'])
     ->middleware(['auth', 'throttle:10,1'])

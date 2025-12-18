@@ -26,7 +26,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/');
         }
 
         return back()->withErrors([
@@ -35,7 +35,7 @@ class AuthController extends Controller
     }
 
     public function register(RegisterRequest $request)
-    {   
+    {
         $request->validate([
             'name' => ['required'],
             'cpf' => ['required'],
@@ -47,7 +47,7 @@ class AuthController extends Controller
 
         $cpfsAutorizados = config('cpfs.autorizados');
 
-        if (! in_array($cpf, $cpfsAutorizados)) {
+        if (!in_array($cpf, $cpfsAutorizados)) {
             throw ValidationException::withMessages([
                 'cpf' => 'Este CPF não está autorizado a criar uma conta.',
             ]);
