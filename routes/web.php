@@ -8,13 +8,10 @@ use App\Models\Vote;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/dashboard', function () {
-    $dados = Award::where('is_active', true)->get();
-    return view('home', compact('dados'));
-})->name('home');
+
 
 Route::middleware('guest')->group(function () {
-    Route::get('/', [AuthController::class, 'index'])->name('login');
+    Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 
     Route::get('/register', function () {
@@ -24,6 +21,10 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/', function () {
+    $dados = Award::where('is_active', true)->get();
+    return view('home', compact('dados'));
+})->name('home');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::post('/voting/{award_id}/vote', [VoteController::class, 'store'])

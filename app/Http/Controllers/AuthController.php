@@ -17,7 +17,7 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
@@ -63,7 +63,7 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Conta criada com sucesso!');
     }
 
-    public function logout(LoginRequest $request)
+    public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
