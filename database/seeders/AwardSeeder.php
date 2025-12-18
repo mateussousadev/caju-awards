@@ -14,8 +14,8 @@ class AwardSeeder extends Seeder
     public function run(): void
     {
         Award::create([
-            'name' => 'Cajutec Awards 2025',
-            'description' => 'Premiação anual para reconhecer os melhores profissionais e projetos da Cajutec.',
+            'name' => 'Cajutec Awards',
+            'description' => 'Premiação anual para reconhecer os melhores profissionais da Cajutec.',
             'year' => 2025,
             'voting_start_at' => now(),
             'voting_end_at' => now()->addDays(30),
